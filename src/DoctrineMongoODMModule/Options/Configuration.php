@@ -157,12 +157,12 @@ class Configuration extends AbstractOptions
 
     /**
      *
-     * @param boolean $generateProxies
+     * @param boolean|int $generateProxies
      * @return \DoctrineMongoODMModule\Options\Configuration
      */
     public function setGenerateProxies($generateProxies)
     {
-        $this->generateProxies = (boolean) $generateProxies;
+        $this->generateProxies = $generateProxies;
         return $this;
     }
 
@@ -241,11 +241,11 @@ class Configuration extends AbstractOptions
 
     /**
      *
-     * @param boolean $generateHydrators
+     * @param boolean|int $generateHydrators
      * @return \DoctrineMongoODMModule\Options\Configuration
      */
     public function setGenerateHydrators($generateHydrators) {
-        $this->generateHydrators = (boolean) $generateHydrators;
+        $this->generateHydrators = $generateHydrators;
         return $this;
     }
 
