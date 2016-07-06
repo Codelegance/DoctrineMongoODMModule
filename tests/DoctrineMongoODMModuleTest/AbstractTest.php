@@ -26,7 +26,7 @@ use Zend\ServiceManager\ServiceManager;
 abstract class AbstractTest extends PHPUnit_Framework_TestCase
 {
     protected $application;
-    
+
     /** @var ServiceManager */
     protected $serviceManager;
 

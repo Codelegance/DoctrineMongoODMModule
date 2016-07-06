@@ -62,6 +62,19 @@ class ConfigurationFactory extends AbstractFactory
         $config->setHydratorDir($options->getHydratorDir());
         $config->setHydratorNamespace($options->getHydratorNamespace());
 
+        // persistent collections
+        $config->setAutoGeneratePersistentCollectionClasses($options->getGeneratePersistentCollections());
+        $config->setPersistentCollectionDir($options->getPersistentCollectionDir());
+        $config->setPersistentCollectionNamespace($options->getPersistentCollectionNamespace());
+
+        $options->getPersistentCollectionFactory() && $config->setPersistentCollectionFactory(
+            $serviceLocator->get($options->getPersistentCollectionFactory())
+        );
+
+        $options->getPersistentCollectionGenerator() && $config->setPersistentCollectionGenerator(
+            $serviceLocator->get($options->getPersistentCollectionGenerator())
+        );
+
         // default db
         $config->setDefaultDB($options->getDefaultDb());
 
@@ -73,7 +86,7 @@ class ConfigurationFactory extends AbstractFactory
         $config->setRetryQuery($options->getRetryQuery());
 
         // Register filters
-        foreach($options->getFilters() as $alias => $class){
+        foreach ($options->getFilters() as $alias => $class) {
             $config->addFilter($alias, $class);
         }
 
@@ -81,7 +94,7 @@ class ConfigurationFactory extends AbstractFactory
         $config->setMetadataDriverImpl($serviceLocator->get($options->getDriver()));
 
         // metadataFactory, if set
-        if ($factoryName = $options->getClassMetadataFactoryName()){
+        if ($factoryName = $options->getClassMetadataFactoryName()) {
             $config->setClassMetadataFactoryName($factoryName);
         }
 

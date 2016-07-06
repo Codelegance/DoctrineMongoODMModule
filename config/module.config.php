@@ -1,4 +1,6 @@
 <?php
+use Doctrine\ODM\MongoDB\Configuration;
+
 return [
     'doctrine' => [
 
@@ -28,14 +30,20 @@ return [
                 'hydrator_dir'       => 'data/DoctrineMongoODMModule/Hydrator',
                 'hydrator_namespace' => 'DoctrineMongoODMModule\Hydrator',
 
+                'generate_persistent_collections' => Configuration::AUTOGENERATE_ALWAYS,
+                'persistent_collection_dir' => 'data/DoctrineMongoODMModule/PersistentCollection',
+                'persistent_collection_namespace' => 'DoctrineMongoODMModule\PersistentCollection',
+                'persistent_collection_factory' => null,
+                'persistent_collection_generator' => null,
+
                 'default_db'         => null,
 
                 'filters'            => [],  // array('filterName' => 'BSON\Filter\Class')
 
                 // custom types
-                'types'              => []
-                
-                //'classMetadataFactoryName' => 'ClassName'
+                'types'              => [],
+
+                //'classMetadataFactoryName' => 'ClassName',
             ]
         ],
 
@@ -73,7 +81,7 @@ return [
             ],
         ],
     ],
-    
+
     'hydrators' => [
         'factories' => [
             'DoctrineModule\Stdlib\Hydrator\DoctrineObject' => 'DoctrineMongoODMModule\Service\DoctrineObjectHydratorFactory'
