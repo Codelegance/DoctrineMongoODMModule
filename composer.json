@@ -1,5 +1,5 @@
 {
-    "name": "doctrine/doctrine-mongo-odm-module",
+    "name": "codelegance/doctrine-mongo-odm-module",
     "description": "Zend Framework 2 Module that provides Doctrine MongoDB ODM functionality",
     "type": "library",
     "keywords": [
@@ -58,5 +58,8 @@
         "psr-0": {
             "DoctrineMongoODMModuleTest\\": "tests/"
         }
+    },
+    "replace": {
+        "doctrine/doctrine-mongo-odm-module": "^0.10"
     }
 }
