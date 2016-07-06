@@ -30,7 +30,6 @@ use Zend\Stdlib\AbstractOptions;
  */
 class Configuration extends AbstractOptions
 {
-
     /**
      * Set the cache key for the metadata cache. Cache key
      * is assembled as "doctrine.cache.{key}" and pulled from
@@ -81,6 +80,41 @@ class Configuration extends AbstractOptions
      * @var string
      */
     protected $hydratorNamespace = 'DoctrineMongoODMModule\Hydrator';
+
+    /**
+     * Persistent collection generation strategy.
+     *
+     * @var int
+     */
+    protected $generatePersistentCollections = \Doctrine\ODM\MongoDB\Configuration::AUTOGENERATE_ALWAYS;
+
+    /**
+     * Persistent collection directory.
+     *
+     * @var string
+     */
+    protected $persistentCollectionDir = 'data';
+
+    /**
+     * Persistent collection namespace.
+     *
+     * @var string
+     */
+    protected $persistentCollectionNamespace = 'DoctrineMongoODMModule\PersistentCollection';
+
+    /**
+     * Persistent collection factory service name.
+     *
+     * @var string
+     */
+    protected $persistentCollectionFactory;
+
+    /**
+     * Persistent collection generator service name.
+     *
+     * @var string
+     */
+    protected $persistentCollectionGenerator;
 
     /**
      *
@@ -139,7 +173,7 @@ class Configuration extends AbstractOptions
     /**
      *
      * @param string $driver
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setDriver($driver)
     {
@@ -156,13 +190,14 @@ class Configuration extends AbstractOptions
     }
 
     /**
-     *
      * @param boolean|int $generateProxies
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     *
+     * @return $this
      */
     public function setGenerateProxies($generateProxies)
     {
         $this->generateProxies = $generateProxies;
+
         return $this;
     }
 
@@ -177,7 +212,7 @@ class Configuration extends AbstractOptions
     /**
      *
      * @param string $metadataCache
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setMetadataCache($metadataCache)
     {
@@ -196,7 +231,7 @@ class Configuration extends AbstractOptions
     /**
      *
      * @param string $proxyDir
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setProxyDir($proxyDir)
     {
@@ -215,7 +250,7 @@ class Configuration extends AbstractOptions
     /**
      *
      * @param string $proxyNamespace
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setProxyNamespace($proxyNamespace)
     {
@@ -235,17 +270,20 @@ class Configuration extends AbstractOptions
      *
      * @return boolean
      */
-    public function getGenerateHydrators() {
+    public function getGenerateHydrators()
+    {
         return $this->generateHydrators;
     }
 
     /**
-     *
      * @param boolean|int $generateHydrators
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     *
+     * @return $this
      */
-    public function setGenerateHydrators($generateHydrators) {
+    public function setGenerateHydrators($generateHydrators)
+    {
         $this->generateHydrators = $generateHydrators;
+
         return $this;
     }
 
@@ -253,16 +291,18 @@ class Configuration extends AbstractOptions
      *
      * @return string
      */
-    public function getHydratorDir() {
+    public function getHydratorDir()
+    {
         return $this->hydratorDir;
     }
 
     /**
      *
      * @param string $hydratorDir
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
-    public function setHydratorDir($hydratorDir) {
+    public function setHydratorDir($hydratorDir)
+    {
         $this->hydratorDir = (string) $hydratorDir;
         return $this;
     }
@@ -271,17 +311,119 @@ class Configuration extends AbstractOptions
      *
      * @return string
      */
-    public function getHydratorNamespace() {
+    public function getHydratorNamespace()
+    {
         return $this->hydratorNamespace;
     }
 
     /**
      *
      * @param string $hydratorNamespace
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
-    public function setHydratorNamespace($hydratorNamespace) {
+    public function setHydratorNamespace($hydratorNamespace)
+    {
         $this->hydratorNamespace = (string) $hydratorNamespace;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGeneratePersistentCollections()
+    {
+        return $this->generatePersistentCollections;
+    }
+
+    /**
+     * @param int $generatePersistentCollections
+     *
+     * @return $this
+     */
+    public function setGeneratePersistentCollections($generatePersistentCollections)
+    {
+        $this->generatePersistentCollections = (int)$generatePersistentCollections;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersistentCollectionDir()
+    {
+        return $this->persistentCollectionDir;
+    }
+
+    /**
+     * @param string $persistentCollectionDir
+     *
+     * @return $this
+     */
+    public function setPersistentCollectionDir($persistentCollectionDir)
+    {
+        $this->persistentCollectionDir = (string)$persistentCollectionDir;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersistentCollectionNamespace()
+    {
+        return $this->persistentCollectionNamespace;
+    }
+
+    /**
+     * @param string $persistentCollectionNamespace
+     *
+     * @return $this
+     */
+    public function setPersistentCollectionNamespace($persistentCollectionNamespace)
+    {
+        $this->persistentCollectionNamespace = (string)$persistentCollectionNamespace;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersistentCollectionFactory()
+    {
+        return $this->persistentCollectionFactory;
+    }
+
+    /**
+     * @param $persistentCollectionFactory
+     *
+     * @return $this
+     */
+    public function setPersistentCollectionFactory($persistentCollectionFactory)
+    {
+        $this->persistentCollectionFactory = (string)$persistentCollectionFactory;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersistentCollectionGenerator()
+    {
+        return $this->persistentCollectionGenerator;
+    }
+
+    /**
+     * @param string $persistentCollectionGenerator
+     *
+     * @return $this
+     */
+    public function setPersistentCollectionGenerator($persistentCollectionGenerator)
+    {
+        $this->persistentCollectionGenerator = (string)$persistentCollectionGenerator;
+
         return $this;
     }
 
@@ -289,22 +431,24 @@ class Configuration extends AbstractOptions
      *
      * @return string|null
      */
-    public function getDefaultDb() {
+    public function getDefaultDb()
+    {
         return $this->defaultDb;
     }
 
     /**
      *
      * @param string|null $defaultDb
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
-    public function setDefaultDb($defaultDb) {
-        if($defaultDb === null){
+    public function setDefaultDb($defaultDb)
+    {
+        if ($defaultDb === null) {
             $this->defaultDb = $defaultDb;
-        }
-        else{
+        } else {
             $this->defaultDb = (string) $defaultDb;
         }
+
         return $this;
     }
 
@@ -312,16 +456,18 @@ class Configuration extends AbstractOptions
      *
      * @return array
      */
-    public function getFilters() {
+    public function getFilters()
+    {
         return $this->filters;
     }
 
     /**
      *
      * @param array $filters
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
-    public function setFilters(array $filters) {
+    public function setFilters(array $filters)
+    {
         $this->filters = $filters;
         return $this;
     }
@@ -329,7 +475,7 @@ class Configuration extends AbstractOptions
     /**
      *
      * @param \DoctrineMongoODMModule\Logging\Logger $logger
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setLogger($logger)
     {
@@ -345,26 +491,28 @@ class Configuration extends AbstractOptions
     {
         return $this->logger;
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
-    public function getClassMetadataFactoryName() {
+    public function getClassMetadataFactoryName()
+    {
         return $this->classMetadataFactoryName;
     }
 
     /**
-     * 
+     *
      * @param string $classMetadataFactoryName
      */
-    public function setClassMetadataFactoryName($classMetadataFactoryName) {
+    public function setClassMetadataFactoryName($classMetadataFactoryName)
+    {
         $this->classMetadataFactoryName = (string) $classMetadataFactoryName;
     }
 
     /**
      * @param int $retryConnect
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setRetryConnect($retryConnect)
     {
@@ -382,7 +530,7 @@ class Configuration extends AbstractOptions
 
     /**
      * @param int $retryQuery
-     * @return \DoctrineMongoODMModule\Options\Configuration
+     * @return $this
      */
     public function setRetryQuery($retryQuery)
     {
